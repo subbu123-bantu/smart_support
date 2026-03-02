@@ -1,5 +1,3 @@
-from rest_framework import serializers
-from .models import Ticket,Category
 
 # class TicketSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -7,15 +5,24 @@ from .models import Ticket,Category
 #         fields='__all__'
 #         read_only_fields=['customer']
 
-class TicketSerializer(serializers.ModelSerializer):
-    customer = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = Ticket
-        fields = '__all__'
-        read_only_fields=['priority']
+from rest_framework import serializers
+from .models import Ticket, Category, TicketStatus
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model =Category
-        fields='__all__'
+        model = Category
+        fields = '__all__'
+
+
+class TicketStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TicketStatus
+        fields = '__all__'
+
+
+class TicketSerializer(serializers.ModelSerializer):
+    customer = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+        
